@@ -27,7 +27,6 @@ jobs:
           script: mkdir -p /opt/applications/CICD
 
   build:
-    name: build-project
     runs-on: ubuntu-latest
     needs: create-folder
     steps:
@@ -53,3 +52,19 @@ jobs:
         port: ${{ secrets.PORT }}
         source: "target/cicd.jar"
         target: /opt/applications/CICD
+
+  run script:
+    name: run script
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: create-folder on VM remote
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            ln -sf /opt/applications/CICD/target/cicd.jar /etc/init.d/cicd
+            service start cicd
