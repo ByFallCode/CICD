@@ -30,12 +30,26 @@ jobs:
     name: build-project
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Rename jar
+        run: mv target/*.jar target/cicd.jar
+
+      - name: copy file via ssh password
+          uses: appleboy/scp-action@v0.1.7
+          needs: create-folder
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.PRIVATE_KEY }}
+            port: ${{ secrets.PORT }}
+            source: "target/cicd.jar"
+            target: /opt/applications/CICD
