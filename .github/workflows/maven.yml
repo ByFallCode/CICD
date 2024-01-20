@@ -27,8 +27,9 @@ jobs:
           script: mkdir -p /opt/applications/CICD
 
   build:
-    name: build-project
+    name: build-project and copy on server
     runs-on: ubuntu-latest
+    needs: create-folder
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -45,7 +46,6 @@ jobs:
 
       - name: copy file via ssh password
           uses: appleboy/scp-action@v0.1.7
-          needs: create-folder
           with:
             host: ${{ secrets.HOST }}
             username: ${{ secrets.USERNAME }}
