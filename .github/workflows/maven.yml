@@ -11,12 +11,24 @@ name: Java CI with Maven
 on:
   push:
     branches: [ "main" ]
-
+  workflow_dispatch:
 jobs:
-  build:
-
+  create-folder:
+    name: create-folder
     runs-on: ubuntu-latest
+    steps:
+      - name: create-folder on VM remote
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: mkdir -p /opt/applications/CICD
 
+  build:
+    name: build-project
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
