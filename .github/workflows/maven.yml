@@ -67,5 +67,5 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            ln -sf /opt/applications/cicd.jar /etc/init.d/cicd
+            ln -sf /opt/applications/CICD/target/cicd.jar /etc/init.d/cicd
             /etc/init.d/cicd start
