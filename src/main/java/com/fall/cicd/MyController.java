@@ -1,9 +1,12 @@
 package com.fall.cicd;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("cicd")
+@RestController
+@RequestMapping(path = "cicd", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MyController {
 
     @GetMapping("index")

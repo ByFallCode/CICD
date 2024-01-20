@@ -68,4 +68,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             ln -sf /opt/applications/CICD/target/cicd.jar /etc/init.d/cicd
+            /etc/init.d/cicd stop
             /etc/init.d/cicd start
