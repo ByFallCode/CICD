@@ -52,9 +52,10 @@ jobs:
         port: ${{ secrets.PORT }}
         source: "target/cicd.jar"
         target: /opt/applications/CICD
+        strip_components: 1
 
-  run-script:
-    name: run script
+  run-jar:
+    name: run jar
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -66,5 +67,5 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            ln -sf /opt/applications/CICD/cicd.jar /etc/init.d/cicd
-            service start cicd
+            ln -sf /opt/applications/cicd.jar /etc/init.d/cicd
+            /etc/init.d/cicd start
